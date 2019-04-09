@@ -3,14 +3,40 @@ import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from '../components/Cockpit/Cockpit';
 class App extends Component {
-  state = {
-    persons: [
-      { id: '1', name: 'Max', age: 28 },
-      { id: '2', name: 'Manu', age: 29 },
-      { id: '3', name: 'Mini', age: 30 },
-    ],
-    otherState: 'some other value',
-    showPersons: false
+  constructor(props) {
+    super(props);
+    console.log('[App.js] inside constructor', props);
+
+    this.state = {
+      persons: [
+        { id: '1', name: 'Max', age: 28 },
+        { id: '2', name: 'Manu', age: 29 },
+        { id: '3', name: 'Mini', age: 30 },
+      ],
+      otherState: 'some other value',
+      showPersons: false
+    }
+  }
+
+  componentWillMount() {
+    console.log('[App.js] inside willmount');
+  }
+
+  componentDidMount() {
+    console.log('[App.js] inside didmount');
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('UPDATE inside shouldComponentUpdate', nextProps, nextState);
+    return nextProps.persons !== this.props.persons;
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('UPDATE inside componentWillUpdate', nextProps, nextState);
+  }
+
+  componentDidUpdate() {
+    console.log('UPDATE inside componentDidUpdate');
   }
 
   deletePersonHandler = (personIndex) => {
@@ -50,6 +76,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("Inside app.js render");
     let persons = null;
 
     if (this.state.showPersons) {
@@ -65,8 +92,8 @@ class App extends Component {
         <Cockpit
           appTitle={this.props.title}
           showPerson={this.state.showPersons}
-          persons={this.state.persons} 
-          clicked={this.togglePersonsHandler}/>
+          persons={this.state.persons}
+          clicked={this.togglePersonsHandler} />
         {persons}
 
       </div>
